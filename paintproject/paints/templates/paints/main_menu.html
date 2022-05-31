@@ -1,0 +1,25 @@
+{% extends "paints/base.html" %}
+{% load static %}
+
+{% block head %}
+    <link href="{% static 'paints/css/collection.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block page %}
+  <body>
+
+  <style>
+    background: url({% static "paints/img/fon.jpg"%})
+  </style>
+    <div class="scale" style="float:left">
+    <a href="{% url 'first_paint' %}"><img class="grat" src="{% static 'paints/img/GRATTOL.png' %}"
+                                           width="700" height="700">
+    </div>
+    <div class="scale" style="float:right">
+    <a href="{% url 'second_paint' %}"><img class="iva" src="{% static 'paints/img/IVA NAILS.png' %}"
+                                            width="700" height="700">
+    </div>
+    <script src="script.js"></script>
+  </body>
+
+{% endblock %}
