@@ -23,3 +23,13 @@ def create_man_profile(sender, instance, created, **kwargs):
 def save_man_profile(sender, instance, **kwargs):
     """Saving user profile instance"""
     instance.man.save()
+
+
+class Paint(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    img_path = models.ImageField(upload_to='media/')
+    video = models.TextField()
+
+    def __str__(self):
+        return self.name

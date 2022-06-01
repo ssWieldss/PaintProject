@@ -1,0 +1,57 @@
+
+{% extends "paints/base.html" %}
+{% load static %}
+
+{% block page %}
+<body>
+    <div class = "container">
+        <div class = "title_for_paint"> {{paint.name}} </div>
+        <div class = "description_text"> {{ paint.description }} </div>
+        <iframe width="560" height="315" src = "{{ paint.video }}"
+                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+                        encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <img src="{% get_static_prefix %}img/{{ paint.img_path }}">
+    </div>
+
+    <div class="button-nav">
+        {% if previous is not None %}
+            <button class="previous" onclick="document.location='{% url 'paint_page' previous.pk %}'">Previous</button>
+        {% endif %}
+        {% if next is not None %}
+        <button class="next" onclick="document.location='{% url 'paint_page' next.pk %}'">Next</button>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url 'main_menu' %}">Back to menu</a>
+    </div>
+    <script src="script.js"></script>
+</body>
+{% endblock %}
+
+<!--    <div>-->
+<!--       <p>Граттол - это молодая динамично развивающаяся компания, ставящая своей целью создать идеальный-->
+<!--           гель-лак, вызывающий восторг, и в то же время, доступный по цене.</p>-->
+<!--<p>В производстве нашей продукции используется только самые современное, самое очищенное европейское сырье,-->
+<!--    проходящее тщательный отбор и тестирование ведущими мировыми специалистами и профессионалами. Цветовая палитра - -->
+<!--    это глубокий анализ мировых трендов.</p>-->
+<!--<p>Насыщенные цвета укладываются в один слой, что не только экономит время мастера, но и делает маникюр легким,-->
+<!--    естественным и аккуратным, обеспечивая длительную носкость покрытия.-->
+<!--    Мнгновенное выравнивание поверхности восхищает.</p>-->
+<!--<p>Медовое качество – так среди мастеров отзываются о текстуре гель-лаков Граттол. Гель-лаки Граттол влюбляют в-->
+<!--    себя с первого ноготка!</p>-->
+<!--Мы действительно гордимся нашей продукцией!-->
+<!--        <center>-->
+<!--            <p>-->
+<!--                <iframe width="560" height="315" src="https://www.youtube.com/embed/ig4sLCt5RkM"-->
+<!--                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;-->
+<!--                        encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+<!--            </p>-->
+<!--        </center>-->
+<!--         <div>-->
+<!--           Ознакомьтесь с маркой, чтобы по-настоящему влюбиться и работать на качественных материалах!-->
+<!--            -->
+<!--    </div>-->
+<!--            -->
+<!--    </div>-->
+
+

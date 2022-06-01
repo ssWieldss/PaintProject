@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from paints.forms import ManSignUpForm, ManSignInForm
+from paints.models import Paint
 
 
 def index(request):
@@ -17,8 +18,9 @@ def index(request):
 def main_menu(request):
     return render(request, 'paints/main_menu.html')
 
+
 def first_paint(request):
-    return render(request, 'paints/first_paint.html')
+    return render(request, 'paints/paint_page.html')
 
 
 def second_paint(request):
@@ -50,3 +52,29 @@ class SignInView(LoginView):
 def logout_user(request):
     logout(request)
     return redirect('main_page')
+
+
+def paints_all_view(request):
+    paints = Paint.objects.all()
+    context = {'paints': paints}
+    return render(request, 'paints/main_menu.html', context=context)
+
+
+class PaintView(generic.DetailView):
+    model = Paint
+    template_name = "paints/paint_page.html"
+    context_object_name = "paint"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        try:
+            context["next"] = Paint.objects.get(pk=(self.object.pk + 1))
+        except Paint.DoesNotExist:
+            pass
+
+        try:
+            context["previous"] = Paint.objects.get(pk=(self.object.pk - 1))
+        except Paint.DoesNotExist:
+            pass
+        return self.render_to_response(context)
