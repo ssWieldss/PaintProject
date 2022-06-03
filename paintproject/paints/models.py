@@ -28,8 +28,13 @@ def save_man_profile(sender, instance, **kwargs):
 class Paint(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    img_path = models.ImageField(upload_to='media/')
+    img_path = models.ImageField(upload_to='photos/')
     video = models.TextField()
+    likes = models.ManyToManyField(Man, related_name='likes')
+
+    @property
+    def total_likes(self):
+        return self.likes.count()
 
     def __str__(self):
         return self.name

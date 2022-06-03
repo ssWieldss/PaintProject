@@ -1,31 +1,58 @@
-
 {% extends "paints/base.html" %}
 {% load static %}
 
+{% block head %}
+<link href="{% static 'paints/css/paint.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 {% block page %}
 <body>
-    <div class = "container">
-        <div class = "title_for_paint"> {{paint.name}} </div>
-        <div class = "description_text"> {{ paint.description }} </div>
-        <iframe width="560" height="315" src = "{{ paint.video }}"
-                        title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
-                        encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <img src="{% get_static_prefix %}img/{{ paint.img_path }}">
+    <div class="container">
+        <div class="title_for_paint"> {{paint.name}}</div>
+        <div class="description_text"> {{ paint.description }}</div>
+        <iframe width="560" height="315" src="{{ paint.video }}"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write;
+                            encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <img src="{{ paint.img_path.url }}">
     </div>
 
     <div class="button-nav">
         {% if previous is not None %}
-            <button class="previous" onclick="document.location='{% url 'paint_page' previous.pk %}'">Previous</button>
+        <button class="previous" onclick="document.location='{% url 'paint_page' previous.pk %}'">Previous</button>
         {% endif %}
         {% if next is not None %}
         <button class="next" onclick="document.location='{% url 'paint_page' next.pk %}'">Next</button>
         {% endif %}
     </div>
+
+    <div class="likes">
+
+            {% if like_flag %}
+        <label class="icons"><input type="checkbox" checked id="myCheckBox">
+                <a id="like_back" class="like_active" name="{{ post.id }}">
+                    <span>
+                            <img id="like_icon" src={% static "paints/img/liked.png" %} alt="Иконка">
+                    </span>
+                </a>
+            </label>
+            {% else %}
+            <label class="icons"><input type="checkbox" checked id="myCheckBox">
+                <a id="like_back" class="like_unactive" name="{{ post.id }}">
+                    <span>
+                        <img id="like_icon" src={% static "paints/img/unliked.png" %} alt="Иконка">
+                    </span>
+                </a>
+                </label>
+
+            {% endif %}
+        <span id="likes_count" class="likes_num">{{ paint.total_likes }}</span>
+    </div>
+
     <div>
         <a href="{% url 'main_menu' %}">Back to menu</a>
     </div>
-    <script src="script.js"></script>
 </body>
+<script src="{% static 'paints/js/like_script.js' %}"></script>
 {% endblock %}
 
 <!--    <div>-->
