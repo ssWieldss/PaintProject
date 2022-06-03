@@ -1,11 +1,15 @@
+import json
+
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from django.urls import reverse_lazy
 from django.views import generic
+from django.views.decorators.http import require_POST
 
 from paints.forms import ManSignUpForm, ManSignInForm
 from paints.models import Paint
@@ -69,6 +73,14 @@ class PaintView(generic.DetailView):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         try:
+            if request.user.man in self.object.likes.all():
+                context["like_flag"] = True
+            else:
+                context["like_flag"] = False
+        except AttributeError:
+            raise Http404("IMPOSTER!!!! You have no profile!")
+
+        try:
             context["next"] = Paint.objects.get(pk=(self.object.pk + 1))
         except Paint.DoesNotExist:
             pass
@@ -78,3 +90,33 @@ class PaintView(generic.DetailView):
         except Paint.DoesNotExist:
             pass
         return self.render_to_response(context)
+
+
+@login_required
+@require_POST
+def like(request):
+    if request.method == 'POST':
+        try:
+            user = request.user.man
+            data = json.loads(request.body.decode())
+
+            paint = get_object_or_404(Paint, pk=int(data.get("paintId")))
+            flag = data.get("flag")
+
+            if flag:
+                # add a new like for a company
+                paint.likes.add(user)
+                # paint.save()
+                message = 'You liked this'
+            else:
+                # user has already liked this company
+                # remove like/user
+                paint.likes.remove(user)
+                # paint.save()
+                message = 'You disliked this'
+
+            ctx = {'likes_count': paint.total_likes}
+            # use mimetype instead of content_type if django < 5
+            return HttpResponse(json.dumps(ctx), content_type='application/json')
+        except:
+            return HttpResponse({"error": "Can't to make a like"})

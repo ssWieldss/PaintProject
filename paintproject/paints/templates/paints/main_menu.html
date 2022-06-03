@@ -15,7 +15,7 @@
   {% for paint in paints %}
     <div class="image_for_paint" style="float:left">
     <a href="{% url 'paint_page' paint.pk  %}">
-            <img src="{% get_static_prefix %}img/{{ paint.img_path }}">
+            <img src="{{ paint.img_path.url }}">
           </a>
     </div>
   {% endfor %}
