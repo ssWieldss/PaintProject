@@ -42,7 +42,7 @@ def main_page(request):
 class SignUpView(generic.CreateView):
     form_class = ManSignUpForm
     template_name = 'paints/registration.html'
-    success_url = reverse_lazy('main_menu')
+    success_url = reverse_lazy('main_page')
 
 
 class SignInView(LoginView):
@@ -102,6 +102,7 @@ def like(request):
 
             paint = get_object_or_404(Paint, pk=int(data.get("paintId")))
             flag = data.get("flag")
+            print(user)
 
             if flag:
                 # add a new like for a company
@@ -120,3 +121,11 @@ def like(request):
             return HttpResponse(json.dumps(ctx), content_type='application/json')
         except:
             return HttpResponse({"error": "Can't to make a like"})
+
+
+def get_likes_count(request, pk):
+    if request.method == 'GET':
+        paint = get_object_or_404(Paint, pk=int(pk))
+        ctx = {'likes_count': paint.total_likes}
+        # use mimetype instead of content_type if django < 5
+        return HttpResponse(json.dumps(ctx), content_type='application/json')
