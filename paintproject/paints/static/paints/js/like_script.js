@@ -49,9 +49,7 @@ async function onChange () {
         }
 
     if (response.ok){
-        json_data = await response.json()
-        count_ = json_data.likes_count
-        likes_count.innerText = count_
+        change_like_count();
     }
     else {
         let error_data = await response.json();
@@ -67,6 +65,26 @@ function changeLikeIcon(flag) {
         img.src = "../../media/photos/unliked.png";
     }
 }
+
+async function change_like_count(){
+    let array = window.location.href.split("/");
+    let pk = array[array.length - 2];
+    let url = "http://127.0.0.1:8000/get_likes_count/"+pk+"/";
+    let response;
+        response = await fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+        })
+    if (response.ok){
+        json_data = await response.json()
+        count_ = json_data.likes_count
+        likes_count.innerText = count_
+    }
+}
+
+setInterval(function() {
+            change_like_count();
+        }, 3000);
 
 
 

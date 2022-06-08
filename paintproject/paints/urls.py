@@ -13,5 +13,6 @@ urlpatterns = [
     path('', views.main_page, name='main_page'),
     path('logout', views.logout_user, name='logout'),
     path('paint/<int:pk>/', views.PaintView.as_view(), name="paint_page"),
-    path('like/', views.like, name='like')
+    path('like/', views.like, name='like'),
+    path('get_likes_count/<int:pk>/', views.get_likes_count, name='get_likes_count')
 ]

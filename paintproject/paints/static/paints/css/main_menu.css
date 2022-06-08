@@ -1,0 +1,13 @@
+
+body {
+background: url("../img/fon.jpg");
+background-size: cover;
+margin-top:5%;
+}
+.image_for_paint{
+  transition: 0.5s; /* Время эффекта */
+}
+
+.image_for_paint:hover {
+   transform: scale(1.1); /* Увеличиваем масштаб */
+}

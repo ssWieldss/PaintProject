@@ -2,20 +2,15 @@
 {% load static %}
 
 {% block head %}
-    <link href="{% static 'paints/css/collection.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'paints/css/main_menu.css' %}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block page %}
   <body>
-
-  <style>
-    background: url({% static "paints/img/fon.jpg"%})
-  </style>
-
   {% for paint in paints %}
     <div class="image_for_paint" style="float:left">
     <a href="{% url 'paint_page' paint.pk  %}">
-            <img src="{{ paint.img_path.url }}">
+            <img src="{{ paint.img_path.url }}"width="700" height="700">
           </a>
     </div>
   {% endfor %}
