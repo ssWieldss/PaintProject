@@ -1,7 +1,6 @@
-FROM python:3.8
-ENV PYTHONDONTWRITEBYTECODE=1
-WORKDIR /code
-ENV PYTHONUNBUFFERED=1
-COPY requirements.txt /code/
+FROM python:3.9
+ENV PYTHONUNBUFFERED = 1
+WORKDIR paintproject
+COPY paintproject/requirements.txt /paintproject/
 RUN pip install -r requirements.txt
-COPY . /code/
+COPY paintproject/ /paintproject/
